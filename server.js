@@ -1,35 +1,28 @@
 const express = require("express");
 const fs = require("fs");
-const path = require("path");
 const app = express();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-
-// Serve index.html for root path
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+app.use(express.static("public"));
 
 function readData() {
-  return JSON.parse(fs.readFileSync(path.join(__dirname, "data.json")));
-}
-function writeData(data) {
-  fs.writeFileSync(path.join(__dirname, "data.json"), JSON.stringify(data, null, 2));
+  return JSON.parse(fs.readFileSync("data.json"));
 }
 
-// Get all goals
+function writeData(data) {
+  fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+}
+
 app.get("/goals", (req, res) => {
   res.json(readData().goals);
 });
 
-// Create new goal
 app.post("/goals", (req, res) => {
   const data = readData();
   const goal = {
     id: Date.now(),
     title: req.body.title,
-    target: req.body.target,
+    target: Number(req.body.target),
     progress: 0,
     deadline: req.body.deadline,
     streak: 0,
@@ -41,16 +34,14 @@ app.post("/goals", (req, res) => {
   res.json(goal);
 });
 
-// Update progress + streak + achievement
 app.put("/goals/:id/progress", (req, res) => {
   const data = readData();
   const goal = data.goals.find(g => g.id == req.params.id);
   if (!goal) return res.status(404).json({ message: "Not found" });
 
   const today = new Date().toDateString();
-
   if (goal.lastUpdated !== today) {
-    goal.streak += 1;
+    goal.streak++;
     goal.lastUpdated = today;
   }
 
@@ -64,7 +55,6 @@ app.put("/goals/:id/progress", (req, res) => {
   res.json(goal);
 });
 
-// Delete
 app.delete("/goals/:id", (req, res) => {
   let data = readData();
   data.goals = data.goals.filter(g => g.id != req.params.id);
@@ -73,3 +63,4 @@ app.delete("/goals/:id", (req, res) => {
 });
 
 app.listen(3000, () => console.log("Running on http://localhost:3000"));
+
