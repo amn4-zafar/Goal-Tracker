@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Goal Tracker Pro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Goal Tracker Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <header>
-    <h1>🎯 Goal Tracker Pro</h1>
-    <p>Set goals, track progress, and smash your targets!</p>
-  </header>
 
-  <section class="form-section">
-    <input id="title" placeholder="Goal title">
-    <input id="target" type="number" placeholder="Target value">
-    <input id="deadline" type="date">
-    <button onclick="addGoal()">+ Add Goal</button>
-  </section>
+<header>
+  <h1>🎯 Goal Tracker Pro</h1>
+  <p>Turn your goals into achievements</p>
+</header>
 
-  <section id="goals" class="goals-section"></section>
+<div class="quote-box">
+  <div id="quote"></div>
+</div>
 
-  <footer>
-    <p>Made with 😔 by dafar</p>
-  </footer>
+<section class="form-section">
+  <input id="title" placeholder="Goal name">
+  <input id="target" type="number" placeholder="Target value">
+  <input id="deadline" type="date">
+  <button onclick="addGoal()">Add Goal</button>
+</section>
 
-  <script src="app.js"></script>
+<section id="goals" class="goals-section"></section>
+
+<div class="chart-box">
+  <canvas id="progressChart"></canvas>
+</div>
+
+<footer>Made 😔 by dafar</footer>
+
+<script src="app.js"></script>
 </body>
 </html>
